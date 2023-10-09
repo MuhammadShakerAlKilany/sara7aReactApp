@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+ 
+  min-height: 100vh;
+ 
 }
 
 .App-logo {
@@ -36,4 +38,12 @@
     transform: rotate(360deg);
   }
 }
+$theme-colors: (
+  'info': tomato,
+  'danger': rgb(194, 31, 39),
+  "primary":rgb(12, 3, 3),
+  "secondary":rgb(199, 199, 199),
+  "light":rgb(243, 243, 243),
+  
+);
 @import '~bootstrap/scss/bootstrap';

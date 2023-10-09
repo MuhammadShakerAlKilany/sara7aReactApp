@@ -1,7 +1,9 @@
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 export default function SignUp() {
+  const navigate= useNavigate()
   const initialValues = {
     name: "",
     email: "",
@@ -41,96 +43,113 @@ export default function SignUp() {
   });
   return (
     <>
-      <form onSubmit={formik.handleSubmit} >
-        <div className="mb-3">
-          <label htmlFor="InputEmail1" className="form-label">
-            Email address
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="InputEmail1"
-            aria-describedby="emailHelp"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-          />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
+      <section className=" w-50 my-auto  d-block mx-auto mt-5 mb-1 ">
+        <form onSubmit={formik.handleSubmit} className=" p-5 bg-light">
+          <div className="mb-3">
+            <label htmlFor="InputEmail1" className="form-label">
+              Email address
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="InputEmail1"
+              aria-describedby="emailHelp"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              name="email"
+            />
+            <div id="emailHelp" className="form-text">
+              We'll never share your email with anyone else.
+            </div>
+            {formik.errors.email && (
+              <div className="text-danger">{formik.errors.email}</div>
+            )}
           </div>
-          {formik.errors.email && (
-            <div className="text-danger">{formik.errors.email}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="inputName" className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputName"
-            aria-describedby="name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-          />
+          <div className="mb-3">
+            <label htmlFor="inputName" className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputName"
+              aria-describedby="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              name="name"
+            />
 
-          {formik.errors.name && (
-            <div className="text-danger">{formik.errors.name}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="inputAge" className="form-label">
-            Age
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputAge"
-            aria-describedby="Age"
-            value={formik.values.age}
-            onChange={formik.handleChange}
-          />
+            {formik.errors.name && (
+              <div className="text-danger">{formik.errors.name}</div>
+            )}
+          </div>
+          <div className="mb-3">
+            <label htmlFor="inputAge" className="form-label">
+              Age
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              id="inputAge"
+              aria-describedby="Age"
+              value={formik.values.age}
+              onChange={formik.handleChange}
+              name="age"
+            />
 
-          {formik.errors.age && (
-            <div className="text-danger">{formik.errors.age}</div>
-          )}
-        </div>
+            {formik.errors.age && (
+              <div className="text-danger">{formik.errors.age}</div>
+            )}
+          </div>
 
-        <div className="mb-3">
-          <label htmlFor="InputPassword1" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="InputPassword1"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.password && (
-            <div className="text-danger">{formik.errors.password}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="InputrePassword" className="form-label">
-            rePassword
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="InputrePassword"
-            value={formik.values.rePassword}
-            onChange={formik.handleChange}
-          />
-          {formik.errors.rePassword && (
-            <div className="text-danger">{formik.errors.rePassword}</div>
-          )}
-        </div>
+          <div className="mb-3">
+            <label htmlFor="InputPassword1" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="InputPassword1"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              name="password"
+            />
+            {formik.errors.password && (
+              <div className="text-danger">{formik.errors.password}</div>
+            )}
+          </div>
+          <div className="mb-3">
+            <label htmlFor="InputrePassword" className="form-label">
+              rePassword
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="InputrePassword"
+              value={formik.values.rePassword}
+              onChange={formik.handleChange}
+              name="rePassword"
+            />
+            {formik.errors.rePassword && (
+              <div className="text-danger">{formik.errors.rePassword}</div>
+            )}
+          </div>
 
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="btn btn-secondary border   border-primary  d-block w-50 mb-2 mx-auto "
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary  border  border-primary d-block w-25 mx-auto"
+            onClick={()=>{navigate("/signin")}}
+          >
+            SignIn
+          </button>
+        </form>
+      </section>
     </>
   );
 }
