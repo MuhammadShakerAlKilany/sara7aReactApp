@@ -23,8 +23,8 @@ export default function SignIn() {
       .min(3, "min password is 3")
       .max(50, "min password is 3")
       .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-        "Minimum eight characters, at least one letter and one number"
+        /^(?=.*[A-Za-z])[A-Za-z\d]{3,}$/,
+        "Minimum eight characters, at least one letter"
       )
       .required("password is required"),
   });

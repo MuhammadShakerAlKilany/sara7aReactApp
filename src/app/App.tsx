@@ -8,6 +8,7 @@ import SignIn from "./SignIn/SignIn";
 import Guard from "../Guard/Guard";
 import Profile from "./Profile/Profile";
 import Massage from "./Massage/Massage";
+import NotFound from "./NotFound/NotFound";
 const rout = createBrowserRouter([
   {
     path: "",
@@ -22,7 +23,7 @@ const rout = createBrowserRouter([
             <Profile />
           </Guard>
         ),
-      },{path:"send_mas/:userId",Component:Massage}
+      },{path:"send_mas/:userId",Component:Massage},{path:"*",Component:NotFound}
     ],
   },
 ]);

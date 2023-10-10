@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useAPI } from "../../API";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -57,6 +59,11 @@ export default function SignUp() {
   return (
     <>
       <section className=" w-50 my-auto  d-block mx-auto mt-5 mb-1 ">
+      <FontAwesomeIcon
+          icon={faEdit}
+          className="opacity-25 d-block mx-auto display-1  "
+        />
+        <div className="text-center fs-2">SignIn</div>
         <form
           onSubmit={(e) => {
             formik.handleSubmit(e);

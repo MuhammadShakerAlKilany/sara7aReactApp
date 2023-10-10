@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useAPIAuth } from "../../API";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Alert } from "react-bootstrap";
 
 export default function Profile() {
   const token = localStorage.getItem("token")!;
@@ -16,32 +17,32 @@ export default function Profile() {
   function showUrl() {
     setIsShowUrl(!isShowUrl);
   }
+  const allMessages  = data?.data.allMessages as []
   return (
     <>
-      <div
-        className={`position-absolute w-50 h-25 bg-secondary border border-primary   ${
+      <
+      >
+        <Alert variant="secondary"className={`position-absolute     ${
           isShowUrl
-            ? "d-flex justify-content-center align-items-center "
+            ? "d-block  "
             : "d-none"
         }   `}
-        style={{ top: "15vw", left: "30vh" }}
-      >
-        <span className="mx-auto  d-block ">
+        style={{ top: "-1vw" , left:"20%"}}>
           {"http://localhost:3000/send_mas/" + decoded.id}
-        </span>
-      </div>
-      <input type="button" value="share" onClick={showUrl} />
+        </Alert>
+      </>
+      <input type="button" value={isShowUrl?"Hiden Url":"share"} onClick={showUrl} className="btn btn-primary w-25 my-2 mx-auto d-block"/>
       <div>
 
       {isLoading?<div className="spinner-border text-primary" role="status">
   
-</div>:data?.data.allMessages.map((massage: {_id:string ,messageContent: string }) => {
+</div>:allMessages.length!=0 ? allMessages.map((massage: {_id:string ,messageContent: string }) => {
         return (
           <div key={massage._id} className="bg-secondary border border-primary w-50 text-center fs-3 mx-auto mb-1 ">
             {massage.messageContent}
           </div>
         );
-      })}
+      }):<div className="bg-secondary border border-primary w-50 text-center fs-3 mx-auto mb-1 " >Not fond Massage</div>}
       </div>
     </>
   );
