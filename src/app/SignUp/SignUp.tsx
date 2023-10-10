@@ -1,9 +1,11 @@
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { useAPI } from "../../API";
 
 export default function SignUp() {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
+  const api = useAPI();
   const initialValues = {
     name: "",
     email: "",
@@ -37,8 +39,14 @@ export default function SignUp() {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        console.log(values);
+        await api.post("user", values);
+        navigate("/signin");
+      } catch (err) {
+        console.log(err)
+      }
     },
   });
   return (
@@ -144,7 +152,9 @@ export default function SignUp() {
           <button
             type="button"
             className="btn btn-secondary  border  border-primary d-block w-25 mx-auto"
-            onClick={()=>{navigate("/signin")}}
+            onClick={() => {
+              navigate("/signin");
+            }}
           >
             SignIn
           </button>
