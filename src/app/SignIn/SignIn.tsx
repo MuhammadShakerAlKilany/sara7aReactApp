@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAPI } from "../../API";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { context } from "../../Context/context";
 export default function SignIn() {
   const navigate = useNavigate();
   const api = useAPI();
+ const{setIsSignin} = useContext(context)
   const [isTeach, setIsTeach] = useState<any>({});
   const initialValues = {
     email: "",
@@ -20,6 +22,10 @@ export default function SignIn() {
     password: Yup.string()
       .min(3, "min password is 3")
       .max(50, "min password is 3")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+        "Minimum eight characters, at least one letter and one number"
+      )
       .required("password is required"),
   });
 
@@ -30,7 +36,11 @@ export default function SignIn() {
       try {
         const res = await api.post("user/signin", values);
         localStorage.setItem("token", res.data.token);
-      } catch (error) {}
+        setIsSignin?.(true)
+        navigate("/profile")
+      } catch (error) {
+        console.log(error)
+      }
     },
   });
   return (

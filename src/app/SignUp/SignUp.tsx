@@ -25,9 +25,11 @@ export default function SignUp() {
       .email("email not acceptable")
       .required("email is required"),
     password: Yup.string()
+      .min(3, "min password is 3")
+      .max(50, "min password is 3")
       .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "Minimum eight characters, at least one letter, one number and one special character"
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+        "Minimum eight characters, at least one letter and one number"
       )
       .required("password is required"),
     rePassword: Yup.string()
