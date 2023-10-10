@@ -15,8 +15,7 @@ export default function SignIn() {
     email: Yup.string()
       .email("email not acceptable")
       .required("email is required"),
-    password: Yup.string()
-    .required("password is required"),
+    password: Yup.string().required("password is required"),
   });
 
   const formik = useFormik({

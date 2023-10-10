@@ -9,9 +9,10 @@ export function useAPI() {
 export function useAPIAuth(
   token: string | null = localStorage.getItem("token")
 ) {
-  if (token)
+  if (token){
+    console.log(token)
     return axios.create({
       baseURL: URL,
-      headers: { Authorization: `Bearer ${token}` },
-    });
+      headers: { token: `${token}` },
+    });}
 }
