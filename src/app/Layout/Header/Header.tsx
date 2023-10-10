@@ -4,7 +4,11 @@ import { faInfinity } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { context } from "../../../Context/context";
 export default function Header() {
-  const { isSignin } = useContext(context);
+  const { isSignin ,setIsSignin } = useContext(context);
+  function logOut(){
+    localStorage.removeItem("token")
+    setIsSignin?.(false)
+  }
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-primary text-light  ">
@@ -44,7 +48,7 @@ export default function Header() {
                   </Link>
                 </span>
                 <span className="nav-item">
-                  <span className="nav-link  " style={{ cursor: "pointer" }}>
+                  <span className="nav-link  " style={{ cursor: "pointer" }} onClick={logOut}>
                     logout
                   </span>
                 </span>
