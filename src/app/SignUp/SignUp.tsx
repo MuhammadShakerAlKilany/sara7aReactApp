@@ -2,9 +2,12 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useAPI } from "../../API";
+import { useState } from "react";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [isTeach, setIsTeach] = useState<any>({});
+
   const api = useAPI();
   const initialValues = {
     name: "",
@@ -45,14 +48,26 @@ export default function SignUp() {
         await api.post("user", values);
         navigate("/signin");
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
   });
   return (
     <>
       <section className=" w-50 my-auto  d-block mx-auto mt-5 mb-1 ">
-        <form onSubmit={formik.handleSubmit} className=" p-5 bg-light">
+        <form
+          onSubmit={(e) => {
+            formik.handleSubmit(e);
+            setIsTeach({
+              email: true,
+              name: true,
+              age: true,
+              password: true,
+              rePassword: true,
+            });
+          }}
+          className=" p-5 bg-light"
+        >
           <div className="mb-3">
             <label htmlFor="InputEmail1" className="form-label">
               Email address
@@ -65,11 +80,14 @@ export default function SignUp() {
               value={formik.values.email}
               onChange={formik.handleChange}
               name="email"
+              onBlur={() => {
+                setIsTeach({ ...isTeach, email: true });
+              }}
             />
             <div id="emailHelp" className="form-text">
               We'll never share your email with anyone else.
             </div>
-            {formik.errors.email && (
+            {formik.errors.email && isTeach.email && (
               <div className="text-danger">{formik.errors.email}</div>
             )}
           </div>
@@ -85,9 +103,12 @@ export default function SignUp() {
               value={formik.values.name}
               onChange={formik.handleChange}
               name="name"
+              onBlur={() => {
+                setIsTeach({ ...isTeach, name: true });
+              }}
             />
 
-            {formik.errors.name && (
+            {formik.errors.name && isTeach.name && (
               <div className="text-danger">{formik.errors.name}</div>
             )}
           </div>
@@ -103,9 +124,12 @@ export default function SignUp() {
               value={formik.values.age}
               onChange={formik.handleChange}
               name="age"
+              onBlur={() => {
+                setIsTeach({ ...isTeach, age: true });
+              }}
             />
 
-            {formik.errors.age && (
+            {formik.errors.age && isTeach.age && (
               <div className="text-danger">{formik.errors.age}</div>
             )}
           </div>
@@ -121,8 +145,11 @@ export default function SignUp() {
               value={formik.values.password}
               onChange={formik.handleChange}
               name="password"
+              onBlur={() => {
+                setIsTeach({ ...isTeach, password: true });
+              }}
             />
-            {formik.errors.password && (
+            {formik.errors.password && isTeach.password && (
               <div className="text-danger">{formik.errors.password}</div>
             )}
           </div>
@@ -137,8 +164,11 @@ export default function SignUp() {
               value={formik.values.rePassword}
               onChange={formik.handleChange}
               name="rePassword"
+              onBlur={() => {
+                setIsTeach({ ...isTeach, rePassword: true });
+              }}
             />
-            {formik.errors.rePassword && (
+            {formik.errors.rePassword && isTeach.rePassword && (
               <div className="text-danger">{formik.errors.rePassword}</div>
             )}
           </div>

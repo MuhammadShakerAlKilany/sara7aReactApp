@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAPI } from "../../API";
+import { useState } from "react";
 export default function SignIn() {
   const navigate = useNavigate();
   const api = useAPI();
+  const [isTeach, setIsTeach] = useState<any>({});
   const initialValues = {
     email: "",
     password: "",
@@ -15,14 +17,16 @@ export default function SignIn() {
     email: Yup.string()
       .email("email not acceptable")
       .required("email is required"),
-    password: Yup.string().required("password is required"),
+    password: Yup.string()
+      .min(3, "min password is 3")
+      .max(50, "min password is 3")
+      .required("password is required"),
   });
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       try {
         const res = await api.post("user/signin", values);
         localStorage.setItem("token", res.data.token);
@@ -38,7 +42,16 @@ export default function SignIn() {
         />
         <div className="text-center fs-2">SignIn</div>
 
-        <form onSubmit={formik.handleSubmit} className=" p-5 bg-light">
+        <form
+          onSubmit={(e) => {
+            formik.handleSubmit(e);
+            setIsTeach({
+              email: true,
+              password: true,
+            });
+          }}
+          className=" p-5 bg-light"
+        >
           <div className="mb-3">
             <label htmlFor="InputEmail1" className="form-label">
               Email address
@@ -51,11 +64,14 @@ export default function SignIn() {
               value={formik.values.email}
               onChange={formik.handleChange}
               name="email"
+              onBlur={() => {
+                setIsTeach({ ...isTeach, email: true });
+              }}
             />
             <div id="emailHelp" className="form-text">
               We'll never share your email with anyone else.
             </div>
-            {formik.errors.email && (
+            {formik.errors.email && isTeach.email && (
               <div className="text-danger">{formik.errors.email}</div>
             )}
           </div>
@@ -71,8 +87,11 @@ export default function SignIn() {
               value={formik.values.password}
               onChange={formik.handleChange}
               name="password"
+              onBlur={() => {
+                setIsTeach({ ...isTeach, password: true });
+              }}
             />
-            {formik.errors.password && (
+            {formik.errors.password && isTeach.password && (
               <div className="text-danger">{formik.errors.password}</div>
             )}
           </div>
