@@ -1,23 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useQuery } from "react-query";
 import { useAPIAuth } from "../../API";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Alert } from "react-bootstrap";
-
+import { Massage } from "../../interface/Massage";
+import { useSelector , useDispatch } from "react-redux";
+import { Reducer } from "../../interface/Reducer";
+import { getMassage } from "../../Redux/massages";
+import store from "../../Redux/store";
+type  AppDispatch = typeof store.dispatch
 export default function Profile() {
+  const dispatch = useDispatch<AppDispatch>()
+  useEffect(()=>{
+    dispatch(getMassage()) 
+  },[])
   const token = localStorage.getItem("token")!;
   const apiAuth = useAPIAuth();
   const [isShowUrl, setIsShowUrl] = useState(false);
   const decoded: { id: string } = jwt_decode(token);
   
-  const { data ,isLoading } = useQuery("massage", () => apiAuth?.get("message"));
+  // const { data ,isLoading } = useQuery("massage", () => apiAuth?.get("message"));
+  const data = useSelector<Reducer>((state)=>{return state.massage.massagesArr})
+  const isLoading = useSelector<Reducer>((state)=>{return state.massage.isLoading})
   console.log(data);
   function showUrl() {
     setIsShowUrl(!isShowUrl);
   }
-  const allMessages  = data?.data.allMessages as []
+  const allMessages  = data as []
   return (
     <>
       <
@@ -36,7 +47,7 @@ export default function Profile() {
 
       {isLoading?<div className="spinner-border text-primary" role="status">
   
-</div>:allMessages.length!=0 ? allMessages.map((massage: {_id:string ,messageContent: string }) => {
+</div>:allMessages.length!=0 ? allMessages.map((massage: Massage) => {
         return (
           <div key={massage._id} className="bg-secondary border border-primary w-50 text-center fs-3 mx-auto mb-1 ">
             {massage.messageContent}
