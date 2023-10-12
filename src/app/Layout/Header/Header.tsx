@@ -3,12 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfinity } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { context } from "../../../Context/context";
+import {useSelector , useDispatch} from "react-redux"
+import { Reducer } from "../../../interface/Reducer";
+import { logOut } from "../../../Redux/isSignin";
+
 export default function Header() {
-  const { isSignin ,setIsSignin } = useContext(context);
-  function logOut(){
-    localStorage.removeItem("token")
-    setIsSignin?.(false)
-  }
+  // const { isSignin ,setIsSignin } = useContext(context);
+  const isSignin = useSelector<Reducer>((state)=>{return state.isSignin.isSignin}) as boolean
+  const dispatch = useDispatch()
+  // function logOut(){
+  //   localStorage.removeItem("token")
+  //   setIsSignin?.(false)
+  // }
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-primary text-light  ">
@@ -48,7 +54,7 @@ export default function Header() {
                   </Link>
                 </span>
                 <span className="nav-item">
-                  <span className="nav-link  " style={{ cursor: "pointer" }} onClick={logOut}>
+                  <span className="nav-link  " style={{ cursor: "pointer" }} onClick={()=>dispatch(logOut())}>
                     logout
                   </span>
                 </span>

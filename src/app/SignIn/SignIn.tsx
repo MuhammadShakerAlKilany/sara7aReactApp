@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useAPI } from "../../API";
 import { useContext, useState } from "react";
 import { context } from "../../Context/context";
+import {useDispatch} from "react-redux"
+import { signin } from "../../Redux/isSignin";
 export default function SignIn() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const api = useAPI();
  const{setIsSignin} = useContext(context)
@@ -36,7 +39,7 @@ export default function SignIn() {
       try {
         const res = await api.post("user/signin", values);
         localStorage.setItem("token", res.data.token);
-        setIsSignin?.(true)
+        dispatch(signin())
         navigate("/profile")
       } catch (error) {
         console.log(error)
